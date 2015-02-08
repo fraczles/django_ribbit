@@ -1,9 +1,4 @@
-{%extends "base.html" %}
-{% block login %}
-    {% with user.username as username %}
-        {{ block.super }}
-    {% endwith %}
-{% endblock %}
+{% extends "base.html" %}
  
 {% block content %}
     <div class="panel right">
@@ -19,17 +14,13 @@
         </p>
     </div>
     <div class="panel left">
-        <h1>Buddies' Ribbits</h1>
+        <h1>Public Ribbits</h1>
         {% for ribbit in ribbits %}
         <div class="ribbitWrapper">
-            <a href="/users/{{ ribbit.user.username }}">
-                <img class="avatar" src="{{ ribbit.user.profile.gravatar_url }}">
-                <span class="name">{{ ribbit.user.first_name }}</span>
-            </a>
-            @{{ ribbit.user.username }}
-            <p>
-                {{ ribbit.content }}
-            </p>
+            <img class="avatar" src="{{ ribbit.user.profile.gravatar_url }}">
+            <span class="name">{{ ribbit.user.first_name }}</span>@{{ ribbit.user.username }}
+            <span class="time">{{ ribbit.creation_date|timesince }}</span>
+            <p>{{ ribbit.content }}</p>
         </div>
         {% endfor %}
     </div>

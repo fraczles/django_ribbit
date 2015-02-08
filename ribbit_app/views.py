@@ -1,7 +1,7 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from ribbit_app.forms import AuthenticateForm, UserCreateForm, RibbitForm
 from ribbit_app.models import Ribbit
 
@@ -55,3 +55,25 @@ def signup(request):
 		else:
 			return index(request, user_form=user_form)
 	return redirect('/')
+
+@login_required
+def submit(request):
+	if request.method == 'POST':
+		ribbit_form = RibbitForm(data=request.POST)
+		next_url = request.POST.get("next_url", "/")
+		if ribbit_form.is_valid():
+			ribbit = ribbit_form.save(commit=False)
+			ribbit.user = request.user
+			ribbit.save()
+			return redirect(next_url)
+		else:
+			public(request, ribbit_form)
+	return redirect('/')
+
+
+def public(request, ribbit_form=None):
+	ribbit_form = ribbit_form or RibbitForm()
+	ribbits = Ribbit.objects.reverse()[:10]
+	return render(request,
+				  'public.html',
+				  {'ribbit_form': ribbit_form, 'next_url': '/ribbits', 'ribbits': ribbits, 'username': request.user.username})
