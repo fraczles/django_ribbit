@@ -33,7 +33,7 @@ def login_view(request):
 	if request.method == "POST":
 		form = AuthenticateForm(data=request.POST)
 		if form.is_valid():
-			login(request, form.get_user()))
+			login(request, form.get_user())
 			#Success
 			return redirect('/')
 
