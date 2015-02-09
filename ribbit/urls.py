@@ -9,4 +9,7 @@ urlpatterns = patterns('',
 	url(r'^signup$', 'ribbit_app.views.signup'), #signup
 	url(r'^submit$', 'ribbit_app.views.submit'), #submit new ribbit
 	url(r'^ribbits$', 'ribbit_app.views.public'), #public ribbits
+	url(r'^users/$', 'ribbit_app.views.users'), #users
+	url(r'^users/(?P<username>\w{0,30})/$', 'ribbit_app.views.users'), #users
+	url(r'^follow$', 'ribbit_app.views.follow'),
 )
